@@ -33,6 +33,7 @@ body{
     margin-left: 17px;
     margin-bottom: 34px;
     position: relative;
+    display:flex;
 }
 /* .revelar{
     display: flex;

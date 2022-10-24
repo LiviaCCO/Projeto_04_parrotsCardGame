@@ -1,32 +1,90 @@
 alert("Este jogo deve conter um número par de cartas entre 4 e 14. Vamos lá?");
+let qtd = 0;
+const  gifts = ["imagens/bobrossparrot.gif", "imagens/explodyparrot.gif", "imagens/fiestaparrot.gif", "imagens/metalparrot.gif", "imagens/revertitparrot.gif", "imagens/tripletsparrot.gif", "imagens/unicornparrot.gif"];
+const cartasDoJogo = [];
+const cartasViradas = [];
+// chamando a função inicial 
+qtdCartas(); 
 
-let qtdCartas = (parseInt(prompt("Com quantas cartas deseja jogar?")));
+
+
+// Inicio: Definição da qtd de cartas
+function qtdCartas(){
+    qtd=(parseInt(prompt("Com quantas cartas deseja jogar?")));
+    
+    // Para o numero incorreto de cartas
+    if (qtd < 4 || qtd > 14 || qtd % 2 !== 0){
+        alert("Número de cartas inválido");
+        qtdCartas();
+    }
+    // Para o numero correto de cartas
+    else{
+        // Selecionando as cartas
+        jogarCartas();
+        // Colocando as cartas na mesa
+        inserirCartas();
+    }
+}
+function jogarCartas(){
+    // qtd de cartas /2 para formar nova array 
+    for (let i=0; i<(qtd/2); i++){
+        cartasDoJogo.push(gifts[i]); 
+        // Duplicando a array
+        cartasDoJogo.push(gifts[i]);  
+    }
+    // embaralhar array
+    cartasDoJogo.sort(comparador); // Após esta linha, a minhaArray estará embaralhada
+}
+function inserirCartas(){
+    const mesa = document.querySelector('.cartas');
+    
+    for (let i=0; i<cartasDoJogo.length; i++){
+        mesa.innerHTML+= `
+            <div class="carta" onclick="virarCarta(this)">
+                <div class="front face">
+                    <img src="imagens/back.png"></div>
+                <div class="back face">
+                    <img src="${cartasDoJogo[i]}">
+                </div>
+            </div>
+        `
+    }
+}
+// para embaralhar
+function comparador() { 
+    return Math.random() - 0.5;
+} 
 
 
 let i=0;
-let contador=0;
-
+let cont=0;
 function virarCarta(carta){
     carta.classList.toggle('virada');
     i++;
-    contador++;
-
+    cont++;
+    fimJogo(); 
     if(i == 2){
-        
-        // se as cartas sao diferentes
+
+        // verificando as 2 cartas selecionadas 
         const numCartas = document.querySelectorAll('.virada');
-        const carta1 = numCartas[0].classList.values();
-        const carta2 = numCartas[1].classList.values();
-        console.log(carta1);
+        const carta1 = numCartas[0].innerHTML;
+        const carta2 = numCartas[1].innerHTML;
 
-
-        if (carta1 != carta2){
-            setTimeout(desvirar, 1000);
-            i=0; }
-
-        else{
+        // sendo iguais, acrescentamos estas a lista que auxiliará para a finalização do jogo   
+        if (carta1 === carta2){
+            cartasViradas.push(carta1);
+            cartasViradas.push(carta2);
             i=0;
+            console.log(cartasViradas.length);
+            setTimeout(fimJogo, 50);
         }
+        // se forem diferentes, desvirar 
+        else{
+            setTimeout(desvirar, 950);
+            i=0;
+                      
+        }
+       
     }
 }
 
@@ -35,82 +93,30 @@ function desvirar(){
     for(let j=0; j < numCartas.length; j++){
         numCartas[j].classList.remove('virada');}
 }
-
-
-
-
-
-
-// const lista = [];
-
-// function cartoletas(){
-//     let i=0;
-//     while (i < qtdCartas){
-//         const cartaExposta = document.querySelector('.carta');
-//         cartaExposta[i].classList.add('revelar');
-//         lista.push(cartaExposta[i]);
-//         i++;
+function fimJogo(){
+    // console.log(cartasViradas.length);
+    if (cartasViradas.length === cartasDoJogo.length){
+        alert(`Você ganhou em ${cont} jogadas!`); 
+        // novoGame();   
+    }  
+}
+// let novoJogo;
+// function novoGame(){
+//     novoJogo=prompt("Deseja jogar novamente?");
+//     if (novoJogo === "sim"){
+//         let qtd = 0;
+//         let i=0;
+//         let cont=0;
+//         const cartasDoJogo = [];
+//         const cartasViradas = [];
+//         const mesa = "";
+//         qtdCartas();
 //     }
-// }
-
-
-
-// alert("Este jogo deve conter um número par de cartas entre 4 e 14. Vamos lá?");
-
-// // let qtdCartas = (parseInt(prompt("Com quantas cartas deseja jogar?")));
-
-// let Cartas = funcao();
-
-// function funcao(){
-
-//     let qtdCartas = (parseInt(prompt("Com quantas cartas deseja jogar?")));
-
-//     if (qtdCartas < 4){
-//         alert("Número de cartas inválido");
-//         // parseInt(prompt("Com quantas cartas deseja jogar?"));
-//         return Cartas;
+//     else if (novoJogo === "não"){
+//         alert("Ok! Caso mude de ideia, atualize a página!");
 //     }
-//     else if (qtdCartas > 14){
-//         alert("Número de cartas inválido");
-//         // parseInt(prompt("Com quantas cartas deseja jogar?"));
-//         return Cartas
-//         }
 //     else{
-//         if ((qtdCartas%2)===0){
-//         alert("Bora jogar!");
-//         let i=1;
-//         while (i<=qtdCartas){
-//             adicionarCartas();
-//             qtdCartas--;
-//         }
-//         function adicionarCartas() {
-//             const elemento = document.querySelector(.carta:nth-child(i));
-//             elemento.classList.add(.revelada);
-//           }
-
-//         // minhaArray.sort(comparador); // Após esta linha, a minhaArray estará embaralhada
-
-//         // function comparador() { 
-//         //     return Math.random() - 0.5; 
-//         // }
-//         }
-//         else{
-//             alert("Número de cartas inválido");
-//             // parseInt(prompt("Com quantas cartas deseja jogar?"));
-//             return Cartas
-//         }
+//         alert("Não entendi! Sua resposta deve ser sim ou não, com todas as letras minúsculas e acentuação correta.");
+//         novoGame();
 //     }
-
 // }
-
-
-//       let pensamento = prompt("No que vc está pensando?!");
-
-//       while (pensamento !== "fim") {
-//         adicionarPensamento(pensamento);
-//         pensamento = prompt("No que vc está pensando?!");
-//       }
-//       function adicionarCartas() {
-//         const elemento = document.querySelector(.cartas);
-//         elemento.classList.add(.carta);
-//       }
