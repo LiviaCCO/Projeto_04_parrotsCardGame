@@ -62,7 +62,6 @@ function virarCarta(carta){
     carta.classList.toggle('virada');
     i++;
     cont++;
-    fimJogo(); 
     if(i == 2){
 
         // verificando as 2 cartas selecionadas 
@@ -75,7 +74,6 @@ function virarCarta(carta){
             cartasViradas.push(carta1);
             cartasViradas.push(carta2);
             i=0;
-            console.log(cartasViradas.length);
             setTimeout(fimJogo, 50);
         }
         // se forem diferentes, desvirar 
@@ -97,26 +95,20 @@ function fimJogo(){
     // console.log(cartasViradas.length);
     if (cartasViradas.length === cartasDoJogo.length){
         alert(`Você ganhou em ${cont} jogadas!`); 
-        // novoGame();   
+        novoGame();   
     }  
 }
-// let novoJogo;
-// function novoGame(){
-//     novoJogo=prompt("Deseja jogar novamente?");
-//     if (novoJogo === "sim"){
-//         let qtd = 0;
-//         let i=0;
-//         let cont=0;
-//         const cartasDoJogo = [];
-//         const cartasViradas = [];
-//         const mesa = "";
-//         qtdCartas();
-//     }
-//     else if (novoJogo === "não"){
-//         alert("Ok! Caso mude de ideia, atualize a página!");
-//     }
-//     else{
-//         alert("Não entendi! Sua resposta deve ser sim ou não, com todas as letras minúsculas e acentuação correta.");
-//         novoGame();
-//     }
-// }
+let novoJogo;
+function novoGame(){
+    novoJogo=prompt("Deseja jogar novamente?");
+    if (novoJogo === "sim"){
+        window.location.reload();
+    }
+    else if (novoJogo === "não"){
+        alert("Ok! Caso mude de ideia, atualize a página!");
+    }
+    else{
+        alert("Não entendi! Sua resposta deve ser sim ou não, com todas as letras minúsculas e acentuação correta.");
+        novoGame();
+    }
+}
